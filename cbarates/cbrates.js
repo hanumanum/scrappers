@@ -2,13 +2,13 @@ const rp = require('request-promise');
 const $ = require('cheerio');
 const fs = require('fs');
 const fileName = "cbaRates.csv"
-let y = 2015;
+let y = 2012;
 
 
 scrapRates(y)
 
 function scrapRates(y) {
-    if (y > 2021) {
+    if (y >= 2015) {
         return
     }
 
