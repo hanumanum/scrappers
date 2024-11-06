@@ -7,6 +7,16 @@ app.use(cors())
 app.use(express.json({limit: '100mb'}));
 app.use(express.urlencoded({limit: '100mb', extended: true, parameterLimit: 100000}));
 
+const log = (data) => {
+    console.log(data);
+    return data;
+}
+
+const removeKeys = (keysArr) => (obj) => {
+    keysArr.forEach(key => delete obj[key]);
+    return obj;
+}
+
 const connection = require('./database.js');
 
 //25 - 10 - 2023
@@ -38,16 +48,20 @@ app.post("/clients", (req, res) => {
         })
         .map(client => Object.values(client));
 
+    if(values.length === 0) {
+        res.json({ message: "success, no values" });
+        return;
+    }
     connection.query(query, [values], (error, results, fields) => {
         if (error) {
-            res.json({ message: "error" });
+            console.log('Error inserting', values);
             console.error(error);
+            res.json({ message: "error" });
         } else {
             res.json({ message: "success" });
             console.log('Inserted successfully');
         }
     });
-
 });
 
 app.post("/checks", (req, res) => {
@@ -66,15 +80,16 @@ app.post("/checks", (req, res) => {
                 date_close: (!transaction.date_close) ? null : transaction.date_close
             }
         })
+        .map(removeKeys(['application_id','auto_accept']))
         .map(transaction => Object.values(transaction));
 
     connection.query(query, [values], (error, results, fields) => {
         if (error) {
-            res.json({ message: "error" });
             console.error(error);
+            res.json({ message: "error" });
         } else {
-            res.json({ message: "success" });
             console.log('Inserted successfully');
+            res.json({ message: "success" });
         }
     });
 

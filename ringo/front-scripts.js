@@ -34,8 +34,11 @@ function postToServer(json, path) {
   xhr.send(JSON.stringify(json))
 }
 
-function getClients(pageId = 1) {
-  if (pageId > 234) return
+/* function getClients(pageId = 1) {
+  if (pageId > 234) return */
+// 234
+function getClients(pageId = 233) {
+  if (pageId > 267) return
 
   const qString = `select%5B%5D=client_id&select%5B%5D=fio&select%5B%5D=card_number&select%5B%5D=phone&select%5B%5D=date_activale&select%5B%5D=client_groups_id&select%5B%5D=discount_per&select%5B%5D=client_groups_discount&select%5B%5D=total_payed_sum&select%5B%5D=bonus&select%5B%5D=ewallet_balance&select%5B%5D=birthday&select%5B%5D=client_sex&select%5B%5D=email&select%5B%5D=address&select%5B%5D=city&select%5B%5D=country&select%5B%5D=comment&select%5B%5D=client_transaction_last_date&search=&sort%5Bfield%5D=client_id&sort%5Btype%5D=asc&paginate%5Brows%5D=100&paginate%5Bpage%5D=${pageId}&withFieldsAndLists=false`
   //const qString = `select%5B%5D=fio&select%5B%5D=card_number&select%5B%5D=phone&select%5B%5D=client_groups_id&select%5B%5D=client_groups_discount&select%5B%5D=total_payed_sum&search=&sort%5Bfield%5D=card_number&sort%5Btype%5D=desc&paginate%5Brows%5D=100&paginate%5Bpage%5D=${pageId}&withFieldsAndLists=false`
@@ -49,7 +52,6 @@ function getClients(pageId = 1) {
 
     pageId++
     getClients(pageId)
-
   });
 
   XHR.addEventListener("error", (event) => {
@@ -63,11 +65,14 @@ function getClients(pageId = 1) {
   XHR.send(urlEncodedData);
 }
 
-
-function getChecks(date = "2022-02-20") {
+/* function getChecks(date = "2022-02-20") {
   if (date === "2023-11-26")
     return
+ */
 
+function getChecks(date = "2023-11-26") {
+  if (date === "2024-11-26")
+    return
 
   const paginateRows = 5000
   const dateStart = date
